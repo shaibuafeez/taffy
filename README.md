@@ -43,5 +43,5 @@ feature the product doesn't have.
 
 ---
 
-This repository previously held **Taffy**, a design study for a fictional order book on Sui. It is preserved in the git
-history at commit `ce735f9`.
+This repository previously held **Taffy**, a design study for a fictional order book on Sui. Its last version is preserved in
+the git history at commit `8d427cb`.
