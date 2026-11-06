@@ -1,61 +1,115 @@
 # Taffy
 
-**One book, every app, pulled tight.**
+Marketing site for **Taffy**, a concept for a shared on-chain order book on Sui offering spot, margin and prediction markets.
 
-Taffy is a design study: the marketing site for a fictional shared order book on Sui, with spot, margin and predictions in one stack. The visual language is built on Austin Kleon's ideas (*Steal Like an Artist*, *Show Your Work!*, *Keep Going*): newsprint, black marker, index cards, tape, receipts and rubber stamps.
+[![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06b6d4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> The teams, figures, SDK and PULL token on this site are fictional. Nothing here is a real product or an offer of anything.
+![Taffy home page](docs/preview.jpg)
 
-## Highlights
+> **Note:** Taffy is a design concept. The partner teams, metrics, SDK and PULL token shown on the site are fictional.
 
-- **Blackout hero.** A column of market news is redacted word by word with a marker until only the poem is left. *Creativity is subtraction.*
-- **Pull the spread.** A taffy ribbon between bid and ask. Drag it and it thins out as liquidity fragments; let go and it snaps back to one tick.
-- **Stretchy wordmarks.** The footer "Taffy" and the token page's "PULL" stretch toward your cursor and spring back.
-- **Three layers, one chew.** A pinned scroll section pulls in Spot, Margin and Predict, each drawn as a sweet: a gumball machine, a taffy hook and a fortune cookie.
-- **Paper objects.** Receipts that print, stamps that slam, index cards with tape, and doodles that draw themselves in.
-- **Seven pages:** home, builder hub, trader hub (with a simulated order book), token, points (with a sample balance lookup), privacy, terms, plus a blacked-out 404.
+## Overview
 
-All illustrations are hand-drawn SVG in code. There are no image files.
+A fully static Next.js site with seven pages, built around an editorial paper-and-ink visual system. All illustrations are inline SVG components; the project ships no raster image assets.
 
-## Run it
+| Route      | Page                                                            |
+| ---------- | --------------------------------------------------------------- |
+| `/`        | Home                                                            |
+| `/build`   | Builder hub: primitives, composition example, recipes, resources |
+| `/trade`   | Trader hub: simulated order book, onboarding, FAQ               |
+| `/token`   | Token overview: utility, supply and allocation                  |
+| `/points`  | Points program: balance lookup, leaderboard, FAQ                |
+| `/privacy` | Privacy policy (sample text)                                    |
+| `/terms`   | Terms of use (sample text)                                      |
 
-Requires Node.js 22 or newer.
+## Features
+
+- **Animated hero.** A newspaper column is progressively redacted until only the headline remains.
+- **Spread interaction.** A draggable, physics-style ribbon visualises how fragmented liquidity widens spreads. It supports pointer, touch and keyboard input.
+- **Pinned scroll sequence.** The three products are presented in a scroll-scrubbed, pinned section on desktop and fall back to a stacked layout on small screens.
+- **Interactive components.** A simulated live order book, a points balance lookup with an activity heatmap, tabbed product details and accessible accordions.
+- **Scroll-driven motion.** Reveals, stroke drawing, count-up figures and stamp effects are declared with `data-*` attributes and wired up in one place.
+- **Accessibility.** Semantic landmarks, a skip link, labelled controls, keyboard support and full `prefers-reduced-motion` handling.
+- **Performance.** Every route is statically prerendered and fonts are self-hosted through `next/font`, so the site makes no third-party requests.
+
+## Tech stack
+
+- [Next.js 16](https://nextjs.org) (App Router, Turbopack)
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [GSAP](https://gsap.com) with ScrollTrigger
+- [Lenis](https://lenis.darkroom.engineering) smooth scrolling
+- [Playwright Core](https://playwright.dev) for visual verification
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 22 or later (see `.nvmrc`)
+- Google Chrome, only for `npm run verify`
+
+### Installation
 
 ```sh
+git clone https://github.com/shaibuafeez/taffy.git
+cd taffy
 npm ci
-npm run dev        # http://127.0.0.1:3007
+npm run dev
 ```
 
-| Script              | What it does                                                     |
-| ------------------- | ---------------------------------------------------------------- |
-| `npm run dev`       | Dev server on 127.0.0.1:3007                                     |
-| `npm run build`     | Production build                                                 |
-| `npm start`         | Serve the production build on 127.0.0.1:3007                     |
-| `npm run typecheck` | TypeScript check                                                 |
-| `npm run verify`    | Desktop and phone screenshots of every route into `evidence/`, plus console errors (needs Chrome) |
+The development server runs at [http://127.0.0.1:3007](http://127.0.0.1:3007).
 
-## Where to edit
+### Scripts
 
-| What                                   | Where                                  |
-| -------------------------------------- | -------------------------------------- |
-| Every word, number and team name       | `src/content.ts`                       |
-| Colours, fonts, paper textures, marker strokes | `src/app/globals.css`          |
-| Illustrations and logo                 | `src/components/Art.tsx`               |
-| Doodles (underlines, circles, arrows)  | `src/components/Scribble.tsx`          |
-| Blackout hero                          | `src/components/BlackoutHero.tsx`      |
-| Pull-the-spread interaction            | `src/components/TaffyPull.tsx`         |
-| Pinned primitives section              | `src/components/StackScroller.tsx`     |
-| Scroll reveals, stamps, counters       | `src/components/Motion.tsx`            |
-| Pages                                  | `src/app/*/page.tsx`                   |
+| Command             | Description                                                               |
+| ------------------- | ------------------------------------------------------------------------- |
+| `npm run dev`       | Start the development server                                              |
+| `npm run build`     | Create a production build                                                 |
+| `npm start`         | Serve the production build                                                |
+| `npm run typecheck` | Run the TypeScript compiler without emitting                              |
+| `npm run verify`    | Capture desktop and mobile screenshots of every route and report console errors to `evidence/` |
 
-## Stack
+## Project structure
 
-Next.js 16 (App Router), React 19, Tailwind CSS 4, GSAP with ScrollTrigger, and Lenis. Fonts are Bricolage Grotesque, Newsreader, Permanent Marker and JetBrains Mono, self-hosted through `next/font`. All motion respects `prefers-reduced-motion`.
+```text
+src/
+├── app/
+│   ├── layout.tsx            Root layout, fonts, metadata
+│   ├── globals.css           Design tokens and component styles
+│   ├── page.tsx              Home
+│   ├── build/ trade/ token/ points/ privacy/ terms/
+│   └── not-found.tsx
+├── components/
+│   ├── Art.tsx               SVG illustrations and logo
+│   ├── Scribble.tsx          Annotation graphics
+│   ├── Sections.tsx          Shared page sections
+│   ├── Motion.tsx            Smooth scroll and scroll-driven animation
+│   ├── BlackoutHero.tsx      Home hero
+│   ├── TaffyPull.tsx         Spread interaction
+│   ├── StackScroller.tsx     Pinned product sequence
+│   ├── OrderBook.tsx         Simulated order book
+│   ├── PointsLookup.tsx      Points balance lookup
+│   └── ...
+└── content.ts                All site copy and data
+scripts/
+└── verify.mjs                Visual verification script
+```
 
-## Stolen from
+## Customisation
 
-Following Kleon's advice to credit your influences: Austin Kleon's books, newspaper blackout poems, boardwalk taffy-pulling machines, recipe cards in a grandmother's tin, shop receipts and rubber stamps. The page structure was studied from a DeFi landing page used as a reference. All copy, artwork and code here are original.
+- **Content.** All copy, figures, team listings and FAQs live in `src/content.ts`.
+- **Theme.** Colours and font families are defined as tokens in the `@theme` block of `src/app/globals.css`.
+- **Motion.** Add `data-reveal`, `data-draw`, `data-count`, `data-stamp`, `data-print` or `data-drift` to any element; `src/components/Motion.tsx` handles the rest.
+
+## Credits
+
+The visual direction draws on Austin Kleon's *Steal Like an Artist*, *Show Your Work!* and *Keep Going*. Typefaces are Bricolage Grotesque, Newsreader, Permanent Marker and JetBrains Mono, all licensed under the SIL Open Font License.
 
 ## License
 
-[MIT](LICENSE)
+Released under the [MIT License](LICENSE).
