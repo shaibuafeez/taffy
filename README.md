@@ -1,115 +1,47 @@
-# Taffy
+# Cleared
 
-Marketing site for **Taffy**, a concept for a shared on-chain order book on Sui offering spot, margin and prediction markets.
+**Paid in USDC. Marked paid in Xero.**
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06b6d4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+Small businesses on Xero increasingly get paid in USDC and USDT, straight to their own wallet. The payments arrive with
+no reference, sometimes on the wrong chain, sometimes short by an exchange fee, and someone matches each one to an
+invoice by hand. Cleared works out which invoice each stablecoin payment is for, records it in Xero at the USD value on
+the day it landed, and asks only about the ones it can't be sure of.
 
-![Taffy home page](docs/preview.jpg)
+This repo is the site and the clickable product demo.
 
-> **Note:** Taffy is a design concept. The partner teams, metrics, SDK and PULL token shown on the site are fictional.
+| Route | What it is |
+|---|---|
+| `/` | Landing page, plus the "send us last month" form (opens a pre-filled email; no backend yet) |
+| `/demo` | Review inbox: clear three real-world problem payments in a sample Xero organisation |
+| `/demo/setup` | First run: connect Xero, add wallets (network detected from the address), read 90 days |
+| `/pay/demo` | The page a client opens to pay a Xero invoice in USDC or USDT |
 
-## Overview
+Everything under `/demo` and `/pay/demo` uses **sample data** (Northline Studio and its clients are fictional).
 
-A fully static Next.js site with seven pages, built around an editorial paper-and-ink visual system. All illustrations are inline SVG components; the project ships no raster image assets.
+## Run it
 
-| Route      | Page                                                            |
-| ---------- | --------------------------------------------------------------- |
-| `/`        | Home                                                            |
-| `/build`   | Builder hub: primitives, composition example, recipes, resources |
-| `/trade`   | Trader hub: simulated order book, onboarding, FAQ               |
-| `/token`   | Token overview: utility, supply and allocation                  |
-| `/points`  | Points program: balance lookup, leaderboard, FAQ                |
-| `/privacy` | Privacy policy (sample text)                                    |
-| `/terms`   | Terms of use (sample text)                                      |
-
-## Features
-
-- **Animated hero.** A newspaper column is progressively redacted until only the headline remains.
-- **Spread interaction.** A draggable, physics-style ribbon visualises how fragmented liquidity widens spreads. It supports pointer, touch and keyboard input.
-- **Pinned scroll sequence.** The three products are presented in a scroll-scrubbed, pinned section on desktop and fall back to a stacked layout on small screens.
-- **Interactive components.** A simulated live order book, a points balance lookup with an activity heatmap, tabbed product details and accessible accordions.
-- **Scroll-driven motion.** Reveals, stroke drawing, count-up figures and stamp effects are declared with `data-*` attributes and wired up in one place.
-- **Accessibility.** Semantic landmarks, a skip link, labelled controls, keyboard support and full `prefers-reduced-motion` handling.
-- **Performance.** Every route is statically prerendered and fonts are self-hosted through `next/font`, so the site makes no third-party requests.
-
-## Tech stack
-
-- [Next.js 16](https://nextjs.org) (App Router, Turbopack)
-- [React 19](https://react.dev)
-- [TypeScript](https://www.typescriptlang.org)
-- [Tailwind CSS 4](https://tailwindcss.com)
-- [GSAP](https://gsap.com) with ScrollTrigger
-- [Lenis](https://lenis.darkroom.engineering) smooth scrolling
-- [Playwright Core](https://playwright.dev) for visual verification
-
-## Getting started
-
-### Prerequisites
-
-- Node.js 22 or later (see `.nvmrc`)
-- Google Chrome, only for `npm run verify`
-
-### Installation
-
-```sh
-git clone https://github.com/shaibuafeez/taffy.git
-cd taffy
-npm ci
-npm run dev
+```bash
+npm install
+npm run dev        # http://127.0.0.1:3011
+npm run build && npm run start
 ```
 
-The development server runs at [http://127.0.0.1:3007](http://127.0.0.1:3007).
+Node 22 or newer. Set `NEXT_PUBLIC_CONTACT_EMAIL` to the address that should receive "match my month" requests.
 
-### Scripts
+## Where things live
 
-| Command             | Description                                                               |
-| ------------------- | ------------------------------------------------------------------------- |
-| `npm run dev`       | Start the development server                                              |
-| `npm run build`     | Create a production build                                                 |
-| `npm start`         | Serve the production build                                                |
-| `npm run typecheck` | Run the TypeScript compiler without emitting                              |
-| `npm run verify`    | Capture desktop and mobile screenshots of every route and report console errors to `evidence/` |
+- `src/content/site.ts`: every word on the site, including product messages (toasts, errors, empty states). The comments mark which facts are sourced.
+- `src/components/Motion.tsx`: declarative motion (`data-reveal`, `data-draw`, `data-stamp`, `data-count`) on GSAP and Lenis. Respects `prefers-reduced-motion`.
+- `src/components/LedgerHero.tsx`: the hero ledger: rows tick in, the tally fills, the PAID stamp comes down.
+- `src/components/ReviewInbox.tsx`: the review inbox demo: evidence, suggested fixes, rules, stamp, undo, keyboard (Enter, S, U).
+- `src/components/Setup.tsx`, `PayCard.tsx`, `MatchForm.tsx`: setup, the pay page and the request form, including the warning when someone pastes a private key or seed phrase.
 
-## Project structure
+## Voice
 
-```text
-src/
-├── app/
-│   ├── layout.tsx            Root layout, fonts, metadata
-│   ├── globals.css           Design tokens and component styles
-│   ├── page.tsx              Home
-│   ├── build/ trade/ token/ points/ privacy/ terms/
-│   └── not-found.tsx
-├── components/
-│   ├── Art.tsx               SVG illustrations and logo
-│   ├── Scribble.tsx          Annotation graphics
-│   ├── Sections.tsx          Shared page sections
-│   ├── Motion.tsx            Smooth scroll and scroll-driven animation
-│   ├── BlackoutHero.tsx      Home hero
-│   ├── TaffyPull.tsx         Spread interaction
-│   ├── StackScroller.tsx     Pinned product sequence
-│   ├── OrderBook.tsx         Simulated order book
-│   ├── PointsLookup.tsx      Points balance lookup
-│   └── ...
-└── content.ts                All site copy and data
-scripts/
-└── verify.mjs                Visual verification script
-```
+Say what happened, then what to do. Numbers first, invoice numbers always. Never blame the client. Never claim a
+feature the product doesn't have.
 
-## Customisation
+---
 
-- **Content.** All copy, figures, team listings and FAQs live in `src/content.ts`.
-- **Theme.** Colours and font families are defined as tokens in the `@theme` block of `src/app/globals.css`.
-- **Motion.** Add `data-reveal`, `data-draw`, `data-count`, `data-stamp`, `data-print` or `data-drift` to any element; `src/components/Motion.tsx` handles the rest.
-
-## Credits
-
-The visual direction draws on Austin Kleon's *Steal Like an Artist*, *Show Your Work!* and *Keep Going*. Typefaces are Bricolage Grotesque, Newsreader, Permanent Marker and JetBrains Mono, all licensed under the SIL Open Font License.
-
-## License
-
-Released under the [MIT License](LICENSE).
+This repository previously held **Taffy**, a design study for a fictional order book on Sui. It is preserved in the git
+history at commit `ce735f9`.

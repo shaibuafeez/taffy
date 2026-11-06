@@ -1,14 +1,13 @@
 {
-  "name": "taffy-next",
+  "name": "cleared",
   "version": "0.1.0",
   "private": true,
   "engines": { "node": ">=22" },
   "scripts": {
-    "dev": "next dev -H 127.0.0.1 -p 3007",
+    "dev": "next dev -H 127.0.0.1 -p 3011",
     "build": "next build",
-    "start": "next start -H 127.0.0.1 -p 3007",
-    "typecheck": "tsc --noEmit",
-    "verify": "node scripts/verify.mjs"
+    "start": "next start -H 127.0.0.1 -p 3011",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "gsap": "3.14.2",
@@ -22,7 +21,6 @@
     "@types/node": "22.19.1",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
-    "playwright-core": "1.57.0",
     "tailwindcss": "4.1.18",
     "typescript": "5.9.3"
   }
